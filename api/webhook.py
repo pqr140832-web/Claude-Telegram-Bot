@@ -46,7 +46,7 @@ MODELS = {
     # 小鸡农场
     "第三方4.5s": {
         "api": "小鸡农场",
-        "model": "[第三方逆1] claude-sonnet-4.5",
+        "model": "[第三方逆1] claude-sonnet-4.5 [输出只有3~4k]",
         "cost": 1,
         "admin_only": False,
         "max_tokens": 110000
