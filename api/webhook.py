@@ -548,9 +548,6 @@ async def message_handler(update: Update, context):
         await update.message.reply_text(f"Error: {str(e)}")
 
 # ============== Vercel 入口 ==============
-
-bot = Bot(token=BOT_TOKEN)
-
 async def process_update(update_data):
     app = Application.builder().token(BOT_TOKEN).build()
     
@@ -563,9 +560,13 @@ async def process_update(update_data):
     app.add_handler(CallbackQueryHandler(callback_handler))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, message_handler))
     
-    async with app:
-        update = Update.de_json(update_data, bot)
-        await app.process_update(update)
+    await app.initialize()
+    await app.bot.initialize()
+    
+    update = Update.de_json(update_data, app.bot)
+    await app.process_update(update)
+    
+    await app.shutdown()
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
